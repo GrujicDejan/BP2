@@ -1,0 +1,16 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `povezi`(in pime  char(20), in pprezime char(20), in pnaziv   char(20), out res integer)
+begin
+declare nasID  integer;
+declare predID integer;
+declare exit handler for sqlexception
+begin
+    set res = -1;
+end;
+  select nastavnikId into nasID from nastavnik
+    where ime = pime and prezime = pprezime;
+  select predmetId into predID from predmet
+    where naziv = pnaziv;
+  insert into predaje (nastavnikId, predmetId)
+    values (nasID, predID);
+  SET res = 0;
+end
